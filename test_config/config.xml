@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<masterConfig>
+<refreshIntervalHrs>1</refreshIntervalHrs>
+<sites>
+  <site>
+  	<name>CNN</name>
+  	<targetDir>cnn</targetDir>
+  	<url>http://rss.cnn.com/rss/cnn_latest.rss</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  </site>
+  <site>
+  	<name>Financial Sense</name>
+  	<targetDir>financialsense</targetDir>
+  	<url>http://feeds.feedburner.com/fso?format=xml</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  </site>
+  <site>
+  	<name>Zerohedge</name>
+  	<targetDir>zerohedge</targetDir>
+  	<url>http://feeds.feedburner.com/zerohedge/feed</url>
+  	<nativeRSSContent>true</nativeRSSContent>
+  </site>
+<site>
+  	<name>The Guardian</name>
+  	<targetDir>theguardian</targetDir>
+  	<url>https://www.theguardian.com/uk/rss</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  </site>  
+</sites>
+</masterConfig>
