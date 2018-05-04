@@ -94,6 +94,9 @@ public class ArticleAccessHelper {
 			}
 
 			if (title != null && date != null && url != null) {
+				if(config.processor != null){
+					url = config.processor.adjustURL(url);
+				}
 				boolean outcome = FileUtil.writeRawHTMLRecord(title, date, url, targetDir);
 				if(!outcome){
 					//If we already have saved this HTML or can't write the HTML, nothing here matters
@@ -105,7 +108,14 @@ public class ArticleAccessHelper {
 				if (config.nativeRSSContent) {
 					processedText = description;
 				}else{
-					
+					if(config.processor != null){
+						try {
+							processedText = config.processor.process(ArticleAccessHelper.getText(url));
+						} catch (Exception e) {
+							//Its fine, we just can't special process
+							e.printStackTrace();
+						}
+					}
 				}
 				
 				if(processedText != null){

@@ -11,6 +11,24 @@ public class BasicTagCleaner {
 		return html;
 	}
 	
+	public static String cleanNbsp(String html){
+		return html.replaceAll("&nbsp;", " ");
+	}
+	
+	public static String cleanSpan(String html){
+		html = html.replaceAll("</span>", "");
+		html = html.replaceAll("<span[^>]*>", "");
+		
+		return html;
+	}
+	
+	public static String cleanDiv(String html){
+		html = html.replaceAll("</div>", "");
+		html = html.replaceAll("<div[^>]*>", "");
+		
+		return html;
+	}
+	
 	public static String cleanStrong(String html){
 		html = html.replaceAll("<strong>", "");
 		html = html.replaceAll("</strong>", "");
@@ -45,6 +63,9 @@ public class BasicTagCleaner {
 		html = cleanHref(html);
 		html = cleanU(html);
 		html = cleanIFrames(html);
+		html = cleanSpan(html);
+		html = cleanDiv(html);
+		html = cleanNbsp(html);
 		
 		return html;
 	}

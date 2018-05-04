@@ -2,6 +2,10 @@ package handy.rssarchive.config;
 
 import java.text.SimpleDateFormat;
 
+import handy.rssarchive.html.siteProcessors.FinancialSenseProcessor;
+import handy.rssarchive.html.siteProcessors.SiteProcessor;
+import handy.rssarchive.html.siteProcessors.test.FinancialSenseTest;
+
 public class SiteConfig {
 
 	public final String name;
@@ -9,7 +13,8 @@ public class SiteConfig {
 	public final String folder;
 	public final boolean nativeRSSContent;
 	public final SimpleDateFormat format;
-
+	public SiteProcessor processor = null;
+	
 	public SiteConfig(String name, String url, String folder, boolean nativeRSSContent) {
 		this.name = name;
 		this.url = url;
@@ -19,6 +24,10 @@ public class SiteConfig {
 			this.format = new SimpleDateFormat("EEE, dd MMM yyyy hh");
 		} else {
 			this.format = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss zzz");
+		}
+		
+		if(this.name.equals("Financial Sense")){
+			processor = FinancialSenseProcessor.getInstance();
 		}
 	}
 }

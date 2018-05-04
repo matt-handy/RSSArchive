@@ -26,7 +26,6 @@ public class ImageTagCleaner {
 				}catch (Exception e){
 					e.printStackTrace();
 				}
-				System.out.println(targetUrl);
 			}
 			
 			imageCount++;
