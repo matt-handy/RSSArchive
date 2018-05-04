@@ -1,0 +1,27 @@
+<project>
+	<target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
+    </target>
+	
+	<path id="classpath">
+	    <fileset dir="." includes="**/*.jar"/>
+	</path>
+
+    <target name="jar" depends="compile" >
+        <mkdir dir="build/deploy"/>
+    	<copy file="exec.bat" todir="build/deploy"/>
+    	<copy todir="build/deploy">
+    	  <fileset dir="config"/>
+    	</copy>
+        <jar destfile="build/deploy/RSSArchive.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="handy.rssarchive.Runner"/>
+            </manifest>
+        </jar>
+    </target>
+</project>

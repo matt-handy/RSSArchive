@@ -4,4 +4,8 @@ Save image content of articles
 
 Saved non-native content of articles
 
-Cleanup native content of articles (ZH)
+
+Long term features:
+Integrate basic processing of UL tags
+
+Make unicode friendly

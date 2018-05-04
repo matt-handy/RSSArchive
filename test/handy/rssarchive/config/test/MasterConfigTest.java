@@ -1,14 +1,17 @@
-package handy.rssarchive.config;
+package handy.rssarchive.config.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import handy.rssarchive.config.MasterConfig;
+
 public class MasterConfigTest {
 
 	@Test
 	public void test() {
-		MasterConfig masterConfig = new MasterConfig("test_config\\config.xml");
+		MasterConfig masterConfig = new MasterConfig("testData"
+				+ "\\config.xml");
 		assertTrue(masterConfig.refreshHours == 1);
 		
 		assertTrue(masterConfig.configs.size() == 4);

@@ -23,6 +23,10 @@ import org.xml.sax.InputSource;
 
 import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
+import handy.rssarchive.html.BasicTagCleaner;
+import handy.rssarchive.html.BlockquoteCleaner;
+import handy.rssarchive.html.ImageTagCleaner;
+import handy.rssarchive.html.ParagraphTagCleaner;
 
 public class ArticleAccessHelper {
 
@@ -91,13 +95,29 @@ public class ArticleAccessHelper {
 
 			if (title != null && date != null && url != null) {
 				boolean outcome = FileUtil.writeRawHTMLRecord(title, date, url, targetDir);
-				String filename = targetDir + "\\" + FileUtil.articleFolderNameGenerator(title, date) + "\\" + FileUtil.articleFolderNameGenerator(title, date) + ".xml";;
-				
-				if (config.nativeRSSContent) {
-					outcome &= writeXMLArticle(filename, title, dateStr, url, description, description);
-				}else{
-					outcome &= writeXMLArticle(filename, title, dateStr, url, description);
+				if(!outcome){
+					//If we already have saved this HTML or can't write the HTML, nothing here matters
+					continue;
 				}
+				String filename = targetDir + "\\" + FileUtil.articleFolderNameGenerator(title, date);
+				
+				String processedText = null;
+				if (config.nativeRSSContent) {
+					processedText = description;
+				}else{
+					
+				}
+				
+				if(processedText != null){
+					processedText = ParagraphTagCleaner.cleanParagraph(processedText);
+					processedText = BasicTagCleaner.cleanAllBasic(processedText);
+					processedText = BlockquoteCleaner.cleanQuote(processedText);
+					processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
+					
+					FileUtil.writeProcessedText(title, date, processedText, filename);
+				}
+				
+				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText);
 
 			} else {
 				System.out.println("Title: " + title);
@@ -108,11 +128,7 @@ public class ArticleAccessHelper {
 		}
 	}
 
-	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description) {
-		return writeXMLArticle(filename, title, date, url, description, null);
-	}
-
-	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description,
+	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description, Date dateObj,
 			String processedText) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -148,7 +164,7 @@ public class ArticleAccessHelper {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filename));
+			StreamResult result = new StreamResult(new File(filename + "\\" + FileUtil.articleFolderNameGenerator(title, dateObj) + ".xml"));
 
 			transformer.transform(source, result);
 		} catch (Exception e) {

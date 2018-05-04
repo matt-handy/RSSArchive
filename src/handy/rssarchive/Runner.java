@@ -1,11 +1,9 @@
 package handy.rssarchive;
+
 import java.io.File;
 import java.util.Date;
-import java.util.List;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import handy.rssarchive.config.MasterConfig;
 import handy.rssarchive.config.SiteConfig;
