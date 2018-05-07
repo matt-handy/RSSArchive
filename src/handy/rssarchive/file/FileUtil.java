@@ -91,7 +91,9 @@ public class FileUtil {
 	}
 
 	public static boolean readBinaryFileFromUrl(String url, String targetFilename) throws Exception {
-
+		if(!url.contains("http")){
+			url = "http:" + url;
+		}
 		URL u = new URL(url);
 		URLConnection uc = u.openConnection();
 		int contentLength = uc.getContentLength();

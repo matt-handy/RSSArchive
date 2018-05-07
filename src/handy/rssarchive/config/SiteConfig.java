@@ -2,8 +2,10 @@ package handy.rssarchive.config;
 
 import java.text.SimpleDateFormat;
 
+import handy.rssarchive.html.siteProcessors.CNNProcessor;
 import handy.rssarchive.html.siteProcessors.FinancialSenseProcessor;
 import handy.rssarchive.html.siteProcessors.SiteProcessor;
+import handy.rssarchive.html.siteProcessors.TheGuardianProcessor;
 import handy.rssarchive.html.siteProcessors.test.FinancialSenseTest;
 
 public class SiteConfig {
@@ -20,6 +22,8 @@ public class SiteConfig {
 		this.url = url;
 		this.folder = folder;
 		this.nativeRSSContent = nativeRSSContent;
+		
+		//The Hacky BS section, this should all be configurable instead of hard coded
 		if (this.name.equals("Financial Sense")) {
 			this.format = new SimpleDateFormat("EEE, dd MMM yyyy hh");
 		} else {
@@ -28,6 +32,11 @@ public class SiteConfig {
 		
 		if(this.name.equals("Financial Sense")){
 			processor = FinancialSenseProcessor.getInstance();
+		}else if(this.name.equals("CNN")){
+			processor = CNNProcessor.getInstance();
+		}else if(this.name.equals("The Guardian")){
+			processor = TheGuardianProcessor.getInstance();
 		}
+		//End hacky BS section
 	}
 }

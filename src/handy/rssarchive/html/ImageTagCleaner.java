@@ -14,7 +14,7 @@ public class ImageTagCleaner {
 		int imageCount = 1;
 		while (matcher.find()) {
 			String imgTag = matcher.group();
-			html = html.replaceFirst("<img[^>]*>", System.getProperty("line.separator") + "See Image #" + imageCount + System.getProperty("line.separator"));
+			
 
 			Pattern srcPattern = Pattern.compile("src=\"[^\"]*\"");
 			Matcher srcMatcher = srcPattern.matcher(imgTag);
@@ -23,12 +23,15 @@ public class ImageTagCleaner {
 				String targetUrl = srcMatcher.group().substring(5, rawTargetUrl.length() - 1);
 				try{
 				FileUtil.readBinaryFileFromUrl(targetUrl, directory + "\\FileNumber" + imageCount + targetUrl.substring(targetUrl.length()-4, targetUrl.length()));
+				html = html.replaceFirst("<img[^>]*>", System.getProperty("line.separator") + "See Image #" + imageCount + System.getProperty("line.separator"));
+				imageCount++;
 				}catch (Exception e){
-					e.printStackTrace();
+					html = html.replaceFirst("<img[^>]*>", "");
+					//e.printStackTrace();
 				}
 			}
 			
-			imageCount++;
+			
 		}
 
 		return html;

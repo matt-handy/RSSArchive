@@ -29,6 +29,13 @@ public class BasicTagCleaner {
 		return html;
 	}
 	
+	public static String cleanAside(String html){
+		html = html.replaceAll("</aside>", "");
+		html = html.replaceAll("<aside[^>]*>", "");
+		
+		return html;
+	}
+	
 	public static String cleanStrong(String html){
 		html = html.replaceAll("<strong>", "");
 		html = html.replaceAll("</strong>", "");
@@ -66,6 +73,7 @@ public class BasicTagCleaner {
 		html = cleanSpan(html);
 		html = cleanDiv(html);
 		html = cleanNbsp(html);
+		html = cleanAside(html);
 		
 		return html;
 	}

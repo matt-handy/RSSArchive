@@ -25,6 +25,7 @@ import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
 import handy.rssarchive.html.BasicTagCleaner;
 import handy.rssarchive.html.BlockquoteCleaner;
+import handy.rssarchive.html.HeaderTagCleaner;
 import handy.rssarchive.html.ImageTagCleaner;
 import handy.rssarchive.html.ParagraphTagCleaner;
 
@@ -112,7 +113,7 @@ public class ArticleAccessHelper {
 						try {
 							processedText = config.processor.process(ArticleAccessHelper.getText(url));
 						} catch (Exception e) {
-							//Its fine, we just can't special process
+							System.out.println("Was not able to process: " + url);
 							e.printStackTrace();
 						}
 					}
@@ -123,6 +124,7 @@ public class ArticleAccessHelper {
 					processedText = BasicTagCleaner.cleanAllBasic(processedText);
 					processedText = BlockquoteCleaner.cleanQuote(processedText);
 					processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
+					processedText = HeaderTagCleaner.headerTagCleaner(processedText);
 					
 					FileUtil.writeProcessedText(title, date, processedText, filename);
 				}

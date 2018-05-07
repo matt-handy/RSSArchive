@@ -6,6 +6,9 @@ public class ParagraphTagCleaner {
 		html = html.replaceAll("<p[^>]*>", "");
 		html = html.replaceAll("</p>", System.getProperty("line.separator"));
 		
+		html = html.replaceAll("<br>", System.getProperty("line.separator"));
+		html = html.replaceAll("<br/>", System.getProperty("line.separator"));
+		
 		return html;
 	}
 }
