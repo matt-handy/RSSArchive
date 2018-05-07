@@ -6,7 +6,6 @@ import handy.rssarchive.html.siteProcessors.CNNProcessor;
 import handy.rssarchive.html.siteProcessors.FinancialSenseProcessor;
 import handy.rssarchive.html.siteProcessors.SiteProcessor;
 import handy.rssarchive.html.siteProcessors.TheGuardianProcessor;
-import handy.rssarchive.html.siteProcessors.test.FinancialSenseTest;
 
 public class SiteConfig {
 
