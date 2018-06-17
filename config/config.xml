@@ -13,30 +13,35 @@
   	<targetDir>financialsense</targetDir>
   	<url>http://feeds.feedburner.com/fso?format=xml</url>
   	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>author</authorTag>
   </site>
   <site>
   	<name>Zerohedge</name>
   	<targetDir>zerohedge</targetDir>
   	<url>http://feeds.feedburner.com/zerohedge/feed</url>
   	<nativeRSSContent>true</nativeRSSContent>
+  	<authorTag>dc:creator</authorTag>
   </site>
   <site>
   	<name>The Guardian</name>
   	<targetDir>theguardian</targetDir>
   	<url>https://www.theguardian.com/uk/rss</url>
   	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>dc:creator</authorTag>
   </site>
   <site>
   	<name>Fox Headlines</name>
   	<targetDir>fox_headlines</targetDir>
   	<url>http://feeds.foxnews.com/foxnews/latest</url>
   	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>dc:creator</authorTag>
   </site>
   <site>
   	<name>Fox Opinion</name>
   	<targetDir>fox_opinion</targetDir>
   	<url>http://feeds.foxnews.com/foxnews/opinion</url>
   	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>dc:creator</authorTag>
   </site>  
 </sites>
 </masterConfig>

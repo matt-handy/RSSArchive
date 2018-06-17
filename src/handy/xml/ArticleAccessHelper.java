@@ -64,10 +64,15 @@ public class ArticleAccessHelper {
 		for (int idx = 0; idx < articleList.getLength(); idx++) {
 			Node articleItem = articleList.item(idx);
 			String title = null;
+			String author = null;
 			Date date = null;
 			String dateStr = null;
 			String url = null;
 			String description = null;
+			
+			if(config.authorTag == null){
+				author = config.name;
+			}
 
 			for (int jdx = 0; jdx < articleItem.getChildNodes().getLength(); jdx++) {
 				Node metadata = articleItem.getChildNodes().item(jdx);
@@ -86,6 +91,12 @@ public class ArticleAccessHelper {
 						e.printStackTrace();
 					}
 
+				}
+				
+				if(config.authorTag != null){
+					if (metadata.getNodeName().equalsIgnoreCase(config.authorTag)) {
+						author = metadata.getTextContent();
+					}
 				}
 
 				if (metadata.getNodeName().equalsIgnoreCase("description")) {
@@ -129,7 +140,7 @@ public class ArticleAccessHelper {
 					FileUtil.writeProcessedText(title, date, processedText, filename);
 				}
 				
-				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText);
+				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText, author);
 
 			} else {
 				System.out.println("Title: " + title);
@@ -141,7 +152,7 @@ public class ArticleAccessHelper {
 	}
 
 	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description, Date dateObj,
-			String processedText) {
+			String processedText, String author) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -154,6 +165,10 @@ public class ArticleAccessHelper {
 			Element titleEl = doc.createElement("title");
 			titleEl.setTextContent(title);
 			rootElement.appendChild(titleEl);
+			
+			Element authorEl = doc.createElement("author");
+			authorEl.setTextContent(author);
+			rootElement.appendChild(authorEl);
 
 			Element dateEl = doc.createElement("date");
 			dateEl.setTextContent(date);

@@ -43,6 +43,7 @@ public class MasterConfig {
 				String name = null;
 				String directory = null;
 				String url = null;
+				String authorTag = null;
 				boolean nativeFormat = false;
 				
 				for(int jdx = 0; jdx < articleItem.getChildNodes().getLength(); jdx++){
@@ -56,6 +57,9 @@ public class MasterConfig {
 					if(metadata.getNodeName().equalsIgnoreCase("url")){
 						url = metadata.getTextContent();
 					}
+					if(metadata.getNodeName().equalsIgnoreCase("authorTag")){
+						authorTag = metadata.getTextContent();
+					}
 					if(metadata.getNodeName().equalsIgnoreCase("nativeRSSContent")){
 						String nativeFormatStr = metadata.getTextContent();
 						if(nativeFormatStr.equalsIgnoreCase("true")){
@@ -67,7 +71,7 @@ public class MasterConfig {
 				if(name != null &&
 						directory != null &&
 						url != null){
-					SiteConfig newConfig = new SiteConfig(name, url, directory, nativeFormat);
+					SiteConfig newConfig = new SiteConfig(name, url, directory, authorTag, nativeFormat);
 					configs.add(newConfig);
 				}else{
 					System.out.println("Name: " + name);
