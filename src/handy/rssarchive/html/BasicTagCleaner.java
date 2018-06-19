@@ -57,6 +57,13 @@ public class BasicTagCleaner {
 		return html;
 	}
 	
+	public static String cleanI(String html){
+		html = html.replaceAll("<i>", "");
+		html = html.replaceAll("</i>", "");
+		
+		return html;
+	}
+	
 	public static String cleanIFrames(String html){
 		html = html.replaceAll("</iframe>", "");
 		html = html.replaceAll("<iframe[^>]*>", "");
@@ -69,6 +76,7 @@ public class BasicTagCleaner {
 		html = cleanStrong(html);
 		html = cleanHref(html);
 		html = cleanU(html);
+		html = cleanI(html);
 		html = cleanIFrames(html);
 		html = cleanSpan(html);
 		html = cleanDiv(html);

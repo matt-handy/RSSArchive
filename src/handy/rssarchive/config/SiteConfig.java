@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import handy.rssarchive.html.siteProcessors.CNNProcessor;
 import handy.rssarchive.html.siteProcessors.FinancialSenseProcessor;
+import handy.rssarchive.html.siteProcessors.FoxProcessor;
 import handy.rssarchive.html.siteProcessors.SiteProcessor;
 import handy.rssarchive.html.siteProcessors.TheGuardianProcessor;
 
@@ -37,6 +38,10 @@ public class SiteConfig {
 			processor = CNNProcessor.getInstance();
 		}else if(this.name.equals("The Guardian")){
 			processor = TheGuardianProcessor.getInstance();
+		}else if(this.name.equals("Fox Headlines")){
+			processor = FoxProcessor.getInstance();
+		}else if(this.name.equals("Fox Opinion")){
+			processor = FoxProcessor.getInstance();
 		}
 		//End hacky BS section
 	}
