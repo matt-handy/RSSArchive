@@ -26,7 +26,18 @@ public class CNNProcessor extends SiteProcessor {
 			String divCleaned = cleanCNNDiv(trimmedFrontDiv);
 			return cleanArticlesAndSection(divCleaned);
 		}else{
-			throw new Exception("CNN Text processor: No match for isolated article");
+			Pattern pattern2 = Pattern.compile("<div class=\"el__leafmedia el__leafmedia--sourced-paragraph\">.*</div></section>");
+			Matcher matcher2 = pattern2.matcher(html);
+			if(matcher2.find()){
+				String contentTag = matcher2.group();
+				String contentTagIsolated = contentTag.substring(0, contentTag.indexOf("</div></section>") + "</div></section>".length());
+
+				String trimmedFrontDiv = contentTagIsolated.replaceAll("<div class=\"el__leafmedia el__leafmedia--sourced-paragraph\">", "");
+				String divCleaned = cleanCNNDiv(trimmedFrontDiv);
+				return cleanArticlesAndSection(divCleaned);
+			}else{
+				throw new Exception("CNN Text processor: No match for isolated article");
+			}
 		}
 	}
 
@@ -50,6 +61,22 @@ public class CNNProcessor extends SiteProcessor {
 		html = html.replaceAll("<section[^>]*>", "");
 		
 		return html;
+	}
+	
+	@Override
+	public boolean canProcess(String url){
+		if(url.contains("/video/") ||
+				url.contains("/gallery/") ||
+				url.contains("/travel/") ||
+				url.contains("/live-news/")){
+			return false;
+		}else{
+			if(url.contains("money.cnn.com")){
+				System.out.println("Reminder: money.cnn not yet supported");
+				return false;
+			}
+			return true;
+		}
 	}
 
 }

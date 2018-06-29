@@ -120,7 +120,7 @@ public class ArticleAccessHelper {
 				if (config.nativeRSSContent) {
 					processedText = description;
 				}else{
-					if(config.processor != null){
+					if(config.processor != null && config.processor.canProcess(url)){
 						try {
 							processedText = config.processor.process(ArticleAccessHelper.getText(url));
 						} catch (Exception e) {
@@ -131,13 +131,11 @@ public class ArticleAccessHelper {
 				}
 				
 				if(processedText != null){
-					processedText = ParagraphTagCleaner.cleanParagraph(processedText);
-					processedText = BasicTagCleaner.cleanAllBasic(processedText);
-					processedText = BlockquoteCleaner.cleanQuote(processedText);
+					//Strip out image tags and write images to directory
 					processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
-					processedText = HeaderTagCleaner.headerTagCleaner(processedText);
 					
-					FileUtil.writeProcessedText(title, date, processedText, filename);
+					//Strip tags and write text
+					processedText = FileUtil.processAndWriteText(title, date, processedText, filename);
 				}
 				
 				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText, author);

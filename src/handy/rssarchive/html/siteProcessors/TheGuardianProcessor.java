@@ -40,4 +40,17 @@ public class TheGuardianProcessor extends SiteProcessor {
 		return html;
 	}
 
+	@Override
+	public boolean canProcess(String url){
+		if(url.contains("/video/") ||
+				url.contains("/gallery/") ||
+				url.contains("/football/") || 
+				url.contains("/picture/") ||
+				url.contains("/slideshow/") ||
+				url.contains("/ng-interactive/")){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

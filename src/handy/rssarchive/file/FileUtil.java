@@ -13,6 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import handy.rssarchive.html.BasicTagCleaner;
+import handy.rssarchive.html.BlockquoteCleaner;
+import handy.rssarchive.html.HeaderTagCleaner;
+import handy.rssarchive.html.ImageTagCleaner;
+import handy.rssarchive.html.ParagraphTagCleaner;
+import handy.rssarchive.html.ScriptCleaner;
 import handy.xml.ArticleAccessHelper;
 
 public class FileUtil {
@@ -56,17 +62,23 @@ public class FileUtil {
 		return true;
 	}
 
-	public static boolean writeProcessedText(String title, Date date, String processedText, String targetDir) {
+	public static String processAndWriteText(String title, Date date, String text, String targetDir) {
+		text = ParagraphTagCleaner.cleanParagraph(text);
+		text = BasicTagCleaner.cleanAllBasic(text);
+		text = BlockquoteCleaner.cleanQuote(text);
+		text = HeaderTagCleaner.headerTagCleaner(text);
+		text = ScriptCleaner.cleanScript(text);
+		
 		try {
 			PrintWriter writer = new PrintWriter(targetDir + "\\processedText.txt");
-			writer.write(processedText);
+			writer.write(text);
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-
-		return true;
+		
+		return text;
 	}
 
 	public static String readFile(String pathname) throws IOException {

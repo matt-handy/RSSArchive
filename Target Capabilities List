@@ -1,10 +1,10 @@
 Target Capabilities:
 
+Add reader
+
 Long term features:
 Integrate basic processing of UL tags
 
 Make unicode friendly
-
-Clean up embedded javascript in articles
 
 Add support for CNN Money processing
