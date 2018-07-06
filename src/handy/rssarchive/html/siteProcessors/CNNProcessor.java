@@ -36,7 +36,17 @@ public class CNNProcessor extends SiteProcessor {
 				String divCleaned = cleanCNNDiv(trimmedFrontDiv);
 				return cleanArticlesAndSection(divCleaned);
 			}else{
-				throw new Exception("CNN Text processor: No match for isolated article");
+				Pattern pattern3 = Pattern.compile("<h2 class=\"speakable\">.*<!--/storytext-->");
+				Matcher matcher3 = pattern3.matcher(html);
+				if(matcher3.find()){
+					String contentTag = matcher3.group();
+					String contentTagIsolated = contentTag.substring(0, contentTag.indexOf("<!--/storytext-->"));
+
+					String divCleaned = cleanCNNDiv(contentTagIsolated);
+					return cleanArticlesAndSection(divCleaned);
+				}else{
+					throw new Exception("CNN text processor can't parse this URL");
+				}
 			}
 		}
 	}
@@ -60,6 +70,9 @@ public class CNNProcessor extends SiteProcessor {
 		html = html.replaceAll("</section>", "");
 		html = html.replaceAll("<section[^>]*>", "");
 		
+		html = html.replaceAll("</h2>", "");
+		html = html.replaceAll("<h2[^>]*>", "");
+		
 		return html;
 	}
 	
@@ -71,10 +84,6 @@ public class CNNProcessor extends SiteProcessor {
 				url.contains("/live-news/")){
 			return false;
 		}else{
-			if(url.contains("money.cnn.com")){
-				System.out.println("Reminder: money.cnn not yet supported");
-				return false;
-			}
 			return true;
 		}
 	}
