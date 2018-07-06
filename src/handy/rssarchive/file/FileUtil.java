@@ -3,6 +3,7 @@ package handy.rssarchive.file;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -24,6 +25,16 @@ import handy.xml.ArticleAccessHelper;
 public class FileUtil {
 
 	static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+	
+	public static FilenameFilter xmlFilter = new FilenameFilter() {
+		public boolean accept(File dir, String name) {
+			if(name.contains(".xml")){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	};
 
 	public static String articleFolderNameGenerator(String title, Date date) {
 		title = title.replaceAll(":", "-");

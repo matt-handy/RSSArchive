@@ -3,6 +3,7 @@ package handy.xml;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -31,6 +32,8 @@ import handy.rssarchive.html.ParagraphTagCleaner;
 
 public class ArticleAccessHelper {
 
+	public static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy hh");
+	
 	public static String getText(String url) throws Exception {
 		URL website = new URL(url);
 		URLConnection connection = website.openConnection();
@@ -87,6 +90,7 @@ public class ArticleAccessHelper {
 					try {
 						dateStr = metadata.getTextContent();
 						date = config.format.parse(dateStr);
+						dateStr = DATE_FORMAT.format(date);
 					} catch (DOMException | ParseException e) {
 						e.printStackTrace();
 					}
