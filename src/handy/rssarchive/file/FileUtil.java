@@ -9,15 +9,17 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.FileSystems;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import handy.rssarchive.Log;
+import handy.rssarchive.Log.LogLevel;
 import handy.rssarchive.html.BasicTagCleaner;
 import handy.rssarchive.html.BlockquoteCleaner;
 import handy.rssarchive.html.HeaderTagCleaner;
-import handy.rssarchive.html.ImageTagCleaner;
 import handy.rssarchive.html.ParagraphTagCleaner;
 import handy.rssarchive.html.ScriptCleaner;
 import handy.xml.ArticleAccessHelper;
@@ -52,13 +54,13 @@ public class FileUtil {
 
 	public static boolean writeRawHTMLRecord(String title, Date date, String url, String targetDir) {
 		String rootName = articleFolderNameGenerator(title, date);
-		String dirName = targetDir + "\\" + rootName;
+		String dirName = targetDir + getFileSep() + rootName;
 
 		File folder = new File(dirName);
 		if (!folder.exists()) {
 			folder.mkdirs();
 			try {
-				PrintWriter writer = new PrintWriter(dirName + "\\htmlDump.txt");
+				PrintWriter writer = new PrintWriter(dirName + getFileSep() + "htmlDump.txt");
 				writer.write(ArticleAccessHelper.getText(url));
 				writer.close();
 			} catch (Exception e) {
@@ -81,7 +83,7 @@ public class FileUtil {
 		text = ScriptCleaner.cleanScript(text);
 		
 		try {
-			PrintWriter writer = new PrintWriter(targetDir + "\\processedText.txt");
+			PrintWriter writer = new PrintWriter(targetDir + getFileSep() + "processedText.txt");
 			writer.write(text);
 			writer.close();
 		} catch (Exception e) {
@@ -121,6 +123,7 @@ public class FileUtil {
 		URLConnection uc = u.openConnection();
 		int contentLength = uc.getContentLength();
 		if (contentLength == -1) {
+			Log.log("Invalid file returned: " + targetFilename, LogLevel.WARNING);
 			throw new IOException("Invalid file returned");
 		}
 		InputStream raw = uc.getInputStream();
@@ -137,6 +140,7 @@ public class FileUtil {
 		in.close();
 
 		if (offset != contentLength) {
+			Log.log("Only read " + offset + " bytes; Expected " + contentLength + " bytes", LogLevel.WARNING);
 			throw new IOException("Only read " + offset + " bytes; Expected " + contentLength + " bytes");
 		}
 
@@ -147,4 +151,8 @@ public class FileUtil {
 		return true;
 	}
 
+	
+	public static String getFileSep(){
+		return FileSystems.getDefault().getSeparator();
+	}
 }

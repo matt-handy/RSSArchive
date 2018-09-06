@@ -1,8 +1,5 @@
 package handy.rssarchive.html;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 public class BasicTagCleaner {
 	public static String cleanHref(String html){
 		html = html.replaceAll("</a>", "");

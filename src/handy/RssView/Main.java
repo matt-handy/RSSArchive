@@ -4,6 +4,7 @@ import java.io.File;
 
 import handy.rssarchive.config.GUIData;
 import handy.rssarchive.config.MasterConfig;
+import handy.rssarchive.file.FileUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			//FXMLLoader loader = new FXMLLoader(getClass().getResource("MainLayout.fxml"));
-			FXMLLoader loader = new FXMLLoader(new File("src\\MainLayout.fxml").toURI().toURL());
+			FXMLLoader loader = new FXMLLoader(new File("src" + FileUtil.getFileSep() + "MainLayout.fxml").toURI().toURL());
 			
 			Parent root = loader.load();
 	        Scene scene = new Scene(root);

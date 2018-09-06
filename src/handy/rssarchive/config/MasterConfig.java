@@ -3,8 +3,6 @@ package handy.rssarchive.config;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,12 +12,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import gov.nasa.gsfc.gmsec.api.Config;
 import handy.rssarchive.file.FileUtil;
 
 public class MasterConfig {
 	
 	public final List<SiteConfig> configs;
 	public int refreshHours;
+	
+	public String gmsecHeartbeatSubject = null; 
+	public String gmsecLogSubject = null;
+	public Config gmsecConfig = null;
 	
 	public MasterConfig(String configFile){
 		configs = new ArrayList<SiteConfig>();
@@ -37,6 +40,21 @@ public class MasterConfig {
 				refreshHoursStr = refreshIntList.item(idx).getTextContent();
 			}
 			refreshHours = Integer.parseInt(refreshHoursStr);
+			
+			NodeList GMSECHeartbeatSubjectList = document.getElementsByTagName("GMSECHeartbeatSubject");
+			for(int idx = 0; idx < GMSECHeartbeatSubjectList.getLength(); idx++){
+				gmsecHeartbeatSubject = GMSECHeartbeatSubjectList.item(idx).getTextContent();
+			}
+			
+			NodeList GMSECLogSubjectList = document.getElementsByTagName("GMSECLogSubject");
+			for(int idx = 0; idx < GMSECLogSubjectList.getLength(); idx++){
+				gmsecLogSubject = GMSECLogSubjectList.item(idx).getTextContent();
+			}
+			
+			NodeList GMSECConfigList = document.getElementsByTagName("GMSECConfigArgs");
+			for(int idx = 0; idx < GMSECConfigList.getLength(); idx++){
+				makeGMSECConfig(GMSECConfigList.item(idx).getTextContent());
+			}
 			
 			NodeList siteList = document.getElementsByTagName("site");
 			
@@ -85,6 +103,19 @@ public class MasterConfig {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void makeGMSECConfig(String str) throws Exception{
+		String[] args = str.split(" ");
+		gmsecConfig = new Config();
+		for(String arg : args){
+			String[] argElems = arg.split("=");
+			if(argElems.length != 2){
+				throw new Exception("Bad GMSEC config");
+			}
+			System.out.println(argElems[0] + " " + argElems[1]);
+			gmsecConfig.addValue(argElems[0], argElems[1]);
 		}
 	}
 }

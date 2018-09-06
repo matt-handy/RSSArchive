@@ -1,12 +1,15 @@
 package handy.xml;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,18 +25,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import handy.rssarchive.Log;
+import handy.rssarchive.Log.LogLevel;
 import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
-import handy.rssarchive.html.BasicTagCleaner;
-import handy.rssarchive.html.BlockquoteCleaner;
-import handy.rssarchive.html.HeaderTagCleaner;
 import handy.rssarchive.html.ImageTagCleaner;
-import handy.rssarchive.html.ParagraphTagCleaner;
 
 public class ArticleAccessHelper {
 
 	public static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy hh");
-	
+
 	public static String getText(String url) throws Exception {
 		URL website = new URL(url);
 		URLConnection connection = website.openConnection();
@@ -72,8 +73,8 @@ public class ArticleAccessHelper {
 			String dateStr = null;
 			String url = null;
 			String description = null;
-			
-			if(config.authorTag == null){
+
+			if (config.authorTag == null) {
 				author = config.name;
 			}
 
@@ -96,8 +97,8 @@ public class ArticleAccessHelper {
 					}
 
 				}
-				
-				if(config.authorTag != null){
+
+				if (config.authorTag != null) {
 					if (metadata.getNodeName().equalsIgnoreCase(config.authorTag)) {
 						author = metadata.getTextContent();
 					}
@@ -110,51 +111,49 @@ public class ArticleAccessHelper {
 			}
 
 			if (title != null && date != null && url != null) {
-				if(config.processor != null){
+				if (config.processor != null) {
 					url = config.processor.adjustURL(url);
 				}
 				boolean outcome = FileUtil.writeRawHTMLRecord(title, date, url, targetDir);
-				if(!outcome){
-					//If we already have saved this HTML or can't write the HTML, nothing here matters
+				if (!outcome) {
+					// If we already have saved this HTML or can't write the
+					// HTML, nothing here matters
 					continue;
 				}
-				String filename = targetDir + "\\" + FileUtil.articleFolderNameGenerator(title, date);
-				
+				String filename = targetDir + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(title, date);
+
 				String processedText = null;
 				if (config.nativeRSSContent) {
 					processedText = description;
-				}else{
-					if(config.processor != null && config.processor.canProcess(url)){
+				} else {
+					if (config.processor != null && config.processor.canProcess(url)) {
 						try {
 							processedText = config.processor.process(ArticleAccessHelper.getText(url));
 						} catch (Exception e) {
-							System.out.println("Was not able to process: " + url);
-							e.printStackTrace();
+							Log.log("Was not able to process: " + url + e.toString(), LogLevel.WARNING);
 						}
 					}
 				}
-				
-				if(processedText != null){
-					//Strip out image tags and write images to directory
+
+				if (processedText != null) {
+					// Strip out image tags and write images to directory
 					processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
-					
-					//Strip tags and write text
+
+					// Strip tags and write text
 					processedText = FileUtil.processAndWriteText(title, date, processedText, filename);
 				}
-				
+
 				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText, author);
 
 			} else {
-				System.out.println("Title: " + title);
-				System.out.println("Date: " + date);
-				System.out.println("url: " + url);
-				System.out.println("Error");
+				Log.log("Error parsing article data: Title=" + title + " Date=" + date + " url=" + url,
+						LogLevel.WARNING);
 			}
 		}
 	}
 
-	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description, Date dateObj,
-			String processedText, String author) {
+	public static boolean writeXMLArticle(String filename, String title, String date, String url, String description,
+			Date dateObj, String processedText, String author) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -167,7 +166,7 @@ public class ArticleAccessHelper {
 			Element titleEl = doc.createElement("title");
 			titleEl.setTextContent(title);
 			rootElement.appendChild(titleEl);
-			
+
 			Element authorEl = doc.createElement("author");
 			authorEl.setTextContent(author);
 			rootElement.appendChild(authorEl);
@@ -184,7 +183,7 @@ public class ArticleAccessHelper {
 			descriptionEl.setTextContent(description);
 			rootElement.appendChild(descriptionEl);
 
-			if(processedText != null){
+			if (processedText != null) {
 				Element processedTextEl = doc.createElement("processedText");
 				processedTextEl.setTextContent(processedText);
 				rootElement.appendChild(processedTextEl);
@@ -193,7 +192,8 @@ public class ArticleAccessHelper {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filename + "\\" + FileUtil.articleFolderNameGenerator(title, dateObj) + ".xml"));
+			StreamResult result = new StreamResult(new File(
+					filename + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(title, dateObj) + ".xml"));
 
 			transformer.transform(source, result);
 		} catch (Exception e) {

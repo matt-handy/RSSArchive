@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <masterConfig>
 <refreshIntervalHrs>1</refreshIntervalHrs>
+<GMSECConfigArgs>connectionType=gmsec_bolt server=localhost</GMSECConfigArgs>
+<GMSECHeartbeatSubject>GMSEC.HANDY.AWS.RSSARCHIVE.HB</GMSECHeartbeatSubject>
+<GMSECLogSubject>GMSEC.HANDY.AWS.RSSARCHIVE.LOG</GMSECLogSubject>
 <sites>
   <site>
   	<name>CNN</name>

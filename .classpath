@@ -3,11 +3,13 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6-contrib.jar"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6-javadoc.jar"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6-junit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/NASA FOSS/GMSEC_API/bin/gmsecapi.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

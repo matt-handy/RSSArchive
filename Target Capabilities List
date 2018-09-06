@@ -1,6 +1,6 @@
 Target Capabilities:
 
-Add reader - Need sort by date (asc, desc), author filtering
+Reader needs sort by date (asc, desc) and better author filtering
 
 Long term features:
 Integrate basic processing of UL tags
