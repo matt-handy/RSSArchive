@@ -3,6 +3,8 @@ package handy.rssarchive.html.siteProcessors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import handy.rssarchive.html.BasicTagCleaner;
+
 public class FinancialSenseProcessor extends SiteProcessor{
 	private static FinancialSenseProcessor instance = new FinancialSenseProcessor();
 	
@@ -15,17 +17,18 @@ public class FinancialSenseProcessor extends SiteProcessor{
 	}
 	
 	public String process(String html) {
-		String contentTag = "<div class=\"content\">";
-		String endContentTag = "</div>";
-		String removedHeader = html.substring(html.indexOf(contentTag) + contentTag.length());
+		String contentTag = "<article";
+		String endContentTag = "</article>";
+		String removedHeader = html.substring(html.indexOf(contentTag));
 		String pureContent = removedHeader.substring(0, removedHeader.indexOf(endContentTag));
 		
-		Pattern pattern = Pattern.compile("<div class=\"article-author-name fn\">.*</div>");
+		Pattern pattern = Pattern.compile("<span class=\"staff name\">.*</span>");
 		Matcher matcher = pattern.matcher(html);
 
 		if (matcher.find()) {
 			String authorTag = matcher.group();
-			String authorTagIsolated = authorTag.substring(0, authorTag.indexOf("</div>") + "</div>".length());
+			authorTag = authorTag.substring(0, authorTag.indexOf("</span>"));
+			String authorTagIsolated = BasicTagCleaner.cleanAllBasic(authorTag);
 			
 			pureContent = pureContent + System.getProperty("line.separator") + authorTagIsolated;
 		}
@@ -34,6 +37,6 @@ public class FinancialSenseProcessor extends SiteProcessor{
 	}
 
 	public String adjustURL(String url) {
-		return url.replace("financialsense.com/", "financialsense.com/print/");
+		return url;
 	}
 }
