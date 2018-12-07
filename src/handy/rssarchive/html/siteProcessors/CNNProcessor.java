@@ -84,7 +84,9 @@ public class CNNProcessor extends SiteProcessor {
 		if(url.contains("/video/") ||
 				url.contains("/gallery/") ||
 				url.contains("/travel/") ||
-				url.contains("/live-news/")){
+				url.contains("/live-news/") ||
+				url.contains("/cnn-underscored/") || 
+				url.contains("/style/article/")){
 			return false;
 		}else{
 			return true;
