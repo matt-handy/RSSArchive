@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/Common/jdom-2.0.6/jdom-2.0.6-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/NASA FOSS/GMSEC_API/bin/gmsecapi.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/The Constant Admin/Documents/Software/JavaCommons/build/deploy/JavaCommons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

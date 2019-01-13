@@ -10,7 +10,8 @@ import org.w3c.dom.Document;
 import gov.nasa.gsfc.gmsec.api.field.Field;
 import gov.nasa.gsfc.gmsec.api.field.StringField;
 import gov.nasa.gsfc.gmsec.api.mist.ConnectionManager;
-import handy.rssarchive.Log.LogLevel;
+import handy.common.GMSEC.Log.LogLevel;
+import handy.common.GMSEC.Log;
 import handy.rssarchive.config.MasterConfig;
 import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
@@ -58,7 +59,7 @@ public class Runner {
 				ArticleAccessHelper.rssRecorder(rssFeed, rootDirStr + FileUtil.getFileSep() + config.folder, config);
 			}
 
-			Log.log("Sleeping for hours: " + masterConfig.refreshHours, LogLevel.NOMINAL);
+			Log.getInstance().log("Sleeping for hours: " + masterConfig.refreshHours, LogLevel.NOMINAL);
 			System.out.println((new Date()).toString());
 			Thread.sleep(masterConfig.refreshHours * 3600 * 1000);
 		}

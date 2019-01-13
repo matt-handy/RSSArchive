@@ -25,8 +25,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import handy.rssarchive.Log;
-import handy.rssarchive.Log.LogLevel;
+import handy.common.GMSEC.Log;
+import handy.common.GMSEC.Log.LogLevel;
 import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
 import handy.rssarchive.html.ImageTagCleaner;
@@ -130,7 +130,7 @@ public class ArticleAccessHelper {
 						try {
 							processedText = config.processor.process(ArticleAccessHelper.getText(url));
 						} catch (Exception e) {
-							Log.log("Was not able to process: " + url + e.toString(), LogLevel.WARNING);
+							Log.getInstance().log("Was not able to process: " + url + e.toString(), LogLevel.WARNING);
 						}
 					}
 				}
@@ -146,7 +146,7 @@ public class ArticleAccessHelper {
 				outcome &= writeXMLArticle(filename, title, dateStr, url, description, date, processedText, author);
 
 			} else {
-				Log.log("Error parsing article data: Title=" + title + " Date=" + date + " url=" + url,
+				Log.getInstance().log("Error parsing article data: Title=" + title + " Date=" + date + " url=" + url,
 						LogLevel.WARNING);
 			}
 		}

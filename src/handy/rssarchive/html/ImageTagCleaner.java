@@ -3,8 +3,8 @@ package handy.rssarchive.html;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import handy.rssarchive.Log;
-import handy.rssarchive.Log.LogLevel;
+import handy.common.GMSEC.Log;
+import handy.common.GMSEC.Log.LogLevel;
 import handy.rssarchive.file.FileUtil;
 
 public class ImageTagCleaner {
@@ -42,7 +42,7 @@ public class ImageTagCleaner {
 							imageCount++;
 						} catch (Exception e2) {
 							html = html.replaceFirst("<img[^>]*>", "");
-							Log.log("Can't access image: " + targetUrl + "AND Can't access image: " + targetUrl2 + System.lineSeparator() + "at: " + imgTag, LogLevel.WARNING);
+							Log.getInstance().log("Can't access image: " + targetUrl + "AND Can't access image: " + targetUrl2 + System.lineSeparator() + "at: " + imgTag, LogLevel.WARNING);
 						}
 					}		
 				}

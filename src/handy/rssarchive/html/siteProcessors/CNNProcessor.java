@@ -3,9 +3,6 @@ package handy.rssarchive.html.siteProcessors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import handy.rssarchive.Log;
-import handy.rssarchive.Log.LogLevel;
-
 public class CNNProcessor extends SiteProcessor {
 
 	private static CNNProcessor instance = new CNNProcessor();

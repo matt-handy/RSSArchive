@@ -11,11 +11,13 @@
 	<path id="classpath">
 	    <fileset dir="." includes="**/*.jar"/>
 	    <fileset dir="${gmsec.home}" includes="**/*.jar"/>
+	    <fileset dir="${javacommons.home}" includes="**/*.jar"/>
 	</path>
 
     <target name="jar" depends="compile" >
         <mkdir dir="build/deploy"/>
     	<copy file="exec.bat" todir="build/deploy"/>
+    	<copy file="${javacommons.home}/JavaCommons.jar" todir="build/deploy"/>
     	<copy todir="build/deploy">
     	  <fileset dir="config"/>
     	</copy>

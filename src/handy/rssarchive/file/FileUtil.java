@@ -15,8 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import handy.rssarchive.Log;
-import handy.rssarchive.Log.LogLevel;
+import handy.common.GMSEC.Log;
+import handy.common.GMSEC.Log.LogLevel;
 import handy.rssarchive.html.BasicTagCleaner;
 import handy.rssarchive.html.BlockquoteCleaner;
 import handy.rssarchive.html.HeaderTagCleaner;
@@ -123,7 +123,7 @@ public class FileUtil {
 		URLConnection uc = u.openConnection();
 		int contentLength = uc.getContentLength();
 		if (contentLength == -1) {
-			Log.log("Invalid file returned: " + targetFilename, LogLevel.WARNING);
+			Log.getInstance().log("Invalid file returned: " + targetFilename, LogLevel.WARNING);
 			throw new IOException("Invalid file returned");
 		}
 		InputStream raw = uc.getInputStream();
@@ -140,7 +140,7 @@ public class FileUtil {
 		in.close();
 
 		if (offset != contentLength) {
-			Log.log("Only read " + offset + " bytes; Expected " + contentLength + " bytes", LogLevel.WARNING);
+			Log.getInstance().log("Only read " + offset + " bytes; Expected " + contentLength + " bytes", LogLevel.WARNING);
 			throw new IOException("Only read " + offset + " bytes; Expected " + contentLength + " bytes");
 		}
 
