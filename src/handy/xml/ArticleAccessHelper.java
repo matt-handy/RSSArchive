@@ -2,6 +2,7 @@ package handy.xml;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
@@ -27,6 +28,7 @@ import org.xml.sax.InputSource;
 
 import handy.common.GMSEC.Log;
 import handy.common.GMSEC.Log.LogLevel;
+import handy.rssarchive.config.MasterConfig;
 import handy.rssarchive.config.SiteConfig;
 import handy.rssarchive.file.FileUtil;
 import handy.rssarchive.html.ImageTagCleaner;
@@ -63,7 +65,7 @@ public class ArticleAccessHelper {
 		return rssFeed.getElementsByTagName("item");
 	}
 
-	public static void rssRecorder(Document rssFeed, String targetDir, SiteConfig config) {
+	public static void rssRecorder(Document rssFeed, String targetDir, SiteConfig config, MasterConfig mConfig) {
 		NodeList articleList = getItemList(rssFeed);
 		for (int idx = 0; idx < articleList.getLength(); idx++) {
 			Node articleItem = articleList.item(idx);
@@ -122,6 +124,22 @@ public class ArticleAccessHelper {
 				}
 				String filename = targetDir + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(title, date);
 
+				
+				try {
+					//Invoke pdf generation here
+					String invokeCommand = mConfig.chromeInvoke + filename + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(title, date) + ".pdf " + url;
+					Process p = Runtime.getRuntime().exec(invokeCommand);
+					int exitVal = p.waitFor();
+					Log.getInstance().log("Generate PDF: " + invokeCommand, LogLevel.DEBUG);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
 				String processedText = null;
 				if (config.nativeRSSContent) {
 					processedText = description;

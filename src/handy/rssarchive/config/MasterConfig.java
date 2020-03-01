@@ -24,6 +24,8 @@ public class MasterConfig {
 	public String gmsecLogSubject = null;
 	public Config gmsecConfig = null;
 	
+	public String chromeInvoke = null;
+	
 	public MasterConfig(String configFile){
 		configs = new ArrayList<SiteConfig>();
 		refreshHours = 1;//Default value
@@ -55,6 +57,8 @@ public class MasterConfig {
 			for(int idx = 0; idx < GMSECConfigList.getLength(); idx++){
 				makeGMSECConfig(GMSECConfigList.item(idx).getTextContent());
 			}
+			
+			chromeInvoke = document.getElementsByTagName("chrome_invoke").item(0).getTextContent();
 			
 			NodeList siteList = document.getElementsByTagName("site");
 			

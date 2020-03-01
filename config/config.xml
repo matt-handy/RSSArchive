@@ -4,6 +4,7 @@
 <GMSECConfigArgs>connectionType=gmsec_bolt server=localhost</GMSECConfigArgs>
 <GMSECHeartbeatSubject>GMSEC.HANDY.AWS.RSSARCHIVE.HB</GMSECHeartbeatSubject>
 <GMSECLogSubject>GMSEC.HANDY.AWS.RSSARCHIVE.LOG</GMSECLogSubject>
+<chrome_invoke>google-chrome --headless --run-all-compositor-stages-before-draw --print-to-pdf=</chrome_invoke>
 <sites>
   <site>
   	<name>CNN</name>

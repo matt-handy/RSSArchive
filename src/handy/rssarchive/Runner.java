@@ -56,7 +56,7 @@ public class Runner {
 		while (true) {
 			for (SiteConfig config : masterConfig.configs) {
 				Document rssFeed = ArticleAccessHelper.getXMLDocumentFromURL(config.url);
-				ArticleAccessHelper.rssRecorder(rssFeed, rootDirStr + FileUtil.getFileSep() + config.folder, config);
+				ArticleAccessHelper.rssRecorder(rssFeed, rootDirStr + FileUtil.getFileSep() + config.folder, config, masterConfig);
 			}
 
 			Log.getInstance().log("Sleeping for hours: " + masterConfig.refreshHours, LogLevel.NOMINAL);
