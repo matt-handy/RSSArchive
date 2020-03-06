@@ -5,6 +5,7 @@
 <GMSECHeartbeatSubject>GMSEC.HANDY.AWS.RSSARCHIVE.HB</GMSECHeartbeatSubject>
 <GMSECLogSubject>GMSEC.HANDY.AWS.RSSARCHIVE.LOG</GMSECLogSubject>
 <chrome_invoke>google-chrome --headless --run-all-compositor-stages-before-draw --print-to-pdf=</chrome_invoke>
+<enable_chrome>false</enable_chrome>
 <sites>
   <site>
   	<name>CNN</name>
@@ -22,9 +23,10 @@
   <site>
   	<name>Zerohedge</name>
   	<targetDir>zerohedge</targetDir>
-  	<url>http://feeds.feedburner.com/zerohedge/feed</url>
+  	<url>https://www.zerohedge.com/fullrss2.xml</url>
   	<nativeRSSContent>true</nativeRSSContent>
   	<authorTag>dc:creator</authorTag>
+  	<linkTag>link</linkTag>
   </site>
   <site>
   	<name>The Guardian</name>

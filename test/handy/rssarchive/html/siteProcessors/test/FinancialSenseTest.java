@@ -16,7 +16,7 @@ public class FinancialSenseTest {
 		SiteProcessor processor = FinancialSenseProcessor.getInstance();
 		String adjustedUrl = processor.adjustURL(url);
 		
-		assertTrue(adjustedUrl.equals("https://www.financialsense.com/print/przemyslaw-radomski-cfa/golds-bullish-vs-bearish-reversals-which-should-you-trust"));
+		assertEquals(adjustedUrl,"https://www.financialsense.com/przemyslaw-radomski-cfa/golds-bullish-vs-bearish-reversals-which-should-you-trust");
 		
 		try {
 			String article = ArticleAccessHelper.getText(adjustedUrl);

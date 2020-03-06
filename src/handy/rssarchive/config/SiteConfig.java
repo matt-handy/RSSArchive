@@ -14,16 +14,18 @@ public class SiteConfig {
 	public final String url;
 	public final String folder;
 	public final String authorTag;
+	public final String linkTag;
 	public final boolean nativeRSSContent;
 	public final SimpleDateFormat format;
 	public SiteProcessor processor = null;
 	
-	public SiteConfig(String name, String url, String folder, String authorTag, boolean nativeRSSContent) {
+	public SiteConfig(String name, String url, String folder, String authorTag, String linkTag, boolean nativeRSSContent) {
 		this.name = name;
 		this.url = url;
 		this.folder = folder;
 		this.nativeRSSContent = nativeRSSContent;
 		this.authorTag = authorTag;
+		this.linkTag = linkTag;
 		
 		//The Hacky BS section, this should all be configurable instead of hard coded
 		if (this.name.equals("Financial Sense")) {

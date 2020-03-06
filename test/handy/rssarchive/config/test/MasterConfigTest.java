@@ -14,7 +14,7 @@ public class MasterConfigTest {
 				+ "\\config.xml");
 		assertTrue(masterConfig.refreshHours == 1);
 		
-		assertTrue(masterConfig.configs.size() == 4);
+		assertEquals(masterConfig.configs.size(), 6);
 		
 		assertTrue(masterConfig.configs.get(0).folder.equals("cnn"));
 		assertTrue(masterConfig.configs.get(0).name.equals("CNN"));
@@ -28,7 +28,7 @@ public class MasterConfigTest {
 		
 		assertTrue(masterConfig.configs.get(2).folder.equals("zerohedge"));
 		assertTrue(masterConfig.configs.get(2).name.equals("Zerohedge"));
-		assertTrue(masterConfig.configs.get(2).url.equals("http://feeds.feedburner.com/zerohedge/feed"));
+		assertTrue(masterConfig.configs.get(2).url.equals("https://www.zerohedge.com/fullrss2.xml"));
 		assertTrue(masterConfig.configs.get(2).nativeRSSContent);
 		
 		assertTrue(masterConfig.configs.get(3).folder.equals("theguardian"));

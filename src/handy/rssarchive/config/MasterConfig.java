@@ -26,6 +26,8 @@ public class MasterConfig {
 	
 	public String chromeInvoke = null;
 	
+	public boolean enableChrome;
+	
 	public MasterConfig(String configFile){
 		configs = new ArrayList<SiteConfig>();
 		refreshHours = 1;//Default value
@@ -60,6 +62,8 @@ public class MasterConfig {
 			
 			chromeInvoke = document.getElementsByTagName("chrome_invoke").item(0).getTextContent();
 			
+			enableChrome = document.getElementsByTagName("enable_chrome").item(0).getTextContent().equals("true");
+			
 			NodeList siteList = document.getElementsByTagName("site");
 			
 			for(int idx = 0; idx < siteList.getLength(); idx++){
@@ -68,6 +72,7 @@ public class MasterConfig {
 				String directory = null;
 				String url = null;
 				String authorTag = null;
+				String linkTag = null;
 				boolean nativeFormat = false;
 				
 				for(int jdx = 0; jdx < articleItem.getChildNodes().getLength(); jdx++){
@@ -84,6 +89,9 @@ public class MasterConfig {
 					if(metadata.getNodeName().equalsIgnoreCase("authorTag")){
 						authorTag = metadata.getTextContent();
 					}
+					if(metadata.getNodeName().equalsIgnoreCase("linkTag")){
+						linkTag = metadata.getTextContent();
+					}
 					if(metadata.getNodeName().equalsIgnoreCase("nativeRSSContent")){
 						String nativeFormatStr = metadata.getTextContent();
 						if(nativeFormatStr.equalsIgnoreCase("true")){
@@ -95,7 +103,7 @@ public class MasterConfig {
 				if(name != null &&
 						directory != null &&
 						url != null){
-					SiteConfig newConfig = new SiteConfig(name, url, directory, authorTag, nativeFormat);
+					SiteConfig newConfig = new SiteConfig(name, url, directory, authorTag, linkTag, nativeFormat);
 					configs.add(newConfig);
 				}else{
 					System.out.println("Name: " + name);
