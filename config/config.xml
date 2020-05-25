@@ -48,6 +48,38 @@
   	<url>http://feeds.foxnews.com/foxnews/opinion</url>
   	<nativeRSSContent>false</nativeRSSContent>
   	<authorTag>dc:creator</authorTag>
-  </site>  
+  </site>
+  <site>
+  	<name>The Independent News</name>
+  	<targetDir>independent_news</targetDir>
+  	<url>http://www.independent.co.uk/news/rss</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>dc:creator</authorTag>
+  	<linkTag>link</linkTag>
+  </site>
+  <site>
+  	<name>CNBC Top News</name>
+  	<targetDir>cnbc_news</targetDir>
+  	<url>https://www.cnbc.com/id/100003114/device/rss/rss.html</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>metadata:type</authorTag>
+  	<linkTag>link</linkTag>
+  </site>
+  <site>
+  	<name>CNBC Asia News</name>
+  	<targetDir>cnbc_asia_news</targetDir>
+  	<url>https://www.cnbc.com/id/19832390/device/rss/rss.html</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>metadata:type</authorTag>
+  	<linkTag>link</linkTag>
+  </site>
+  <site>
+  	<name>CNBC World News</name>
+  	<targetDir>cnbc_world_news</targetDir>
+  	<url>https://www.cnbc.com/id/100727362/device/rss/rss.html</url>
+  	<nativeRSSContent>false</nativeRSSContent>
+  	<authorTag>metadata:type</authorTag>
+  	<linkTag>link</linkTag>
+  </site>
 </sites>
 </masterConfig>

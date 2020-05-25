@@ -45,6 +45,8 @@ public class SiteConfig {
 		}else if(this.name.equals("Fox Opinion")){
 			processor = FoxProcessor.getInstance();
 		}
+		//Processor will default to NULL, so if there is no recognized name, it will not try to 
+		//process text
 		//End hacky BS section
 	}
 }

@@ -65,7 +65,7 @@ public class ArticleAccessHelper {
 	public static NodeList getItemList(Document rssFeed) {
 		return rssFeed.getElementsByTagName("item");
 	}
-	
+
 	public static ArticleInfo getArticleInfo(Node articleItem, SiteConfig config) {
 		String title = null;
 		String author = null;
@@ -73,26 +73,26 @@ public class ArticleAccessHelper {
 		String dateStr = null;
 		String url = null;
 		String description = null;
-		
+
 		if (config.authorTag == null) {
 			author = config.name;
 		}
-		
+
 		for (int jdx = 0; jdx < articleItem.getChildNodes().getLength(); jdx++) {
 			Node metadata = articleItem.getChildNodes().item(jdx);
 			// System.out.println(metadata.getNodeName());
 			if (metadata.getNodeName().equalsIgnoreCase("title")) {
 				title = metadata.getTextContent();
 			}
-			
-			String targetLinkTagName = "guid";//Default
-			if(config.linkTag != null) {
+
+			String targetLinkTagName = "guid";// Default
+			if (config.linkTag != null) {
 				targetLinkTagName = config.linkTag;
 			}
 			if (metadata.getNodeName().equalsIgnoreCase(targetLinkTagName)) {
 				url = metadata.getTextContent();
 			}
-			
+
 			if (metadata.getNodeName().equalsIgnoreCase("pubDate")) {
 				try {
 					dateStr = metadata.getTextContent();
@@ -115,12 +115,12 @@ public class ArticleAccessHelper {
 			}
 
 		}
-		
+
 		if (title != null && date != null && url != null) {
 			if (config.processor != null) {
 				url = config.processor.adjustURL(url);
 			}
-			ArticleInfo ai =  new ArticleInfo(title, dateStr, author, url, description, null);
+			ArticleInfo ai = new ArticleInfo(title, dateStr, author, url, description, null);
 			ai.addDate(date);
 			return ai;
 		} else {
@@ -128,83 +128,28 @@ public class ArticleAccessHelper {
 					LogLevel.WARNING);
 			return null;
 		}
-		
-		
+
 	}
 
 	public static void rssRecorder(Document rssFeed, String targetDir, SiteConfig config, MasterConfig mConfig) {
 		NodeList articleList = getItemList(rssFeed);
 		for (int idx = 0; idx < articleList.getLength(); idx++) {
 			Node articleItem = articleList.item(idx);
-			/*
-			String title = null;
-			String author = null;
-			Date date = null;
-			String dateStr = null;
-			String url = null;
-			String description = null;
-
-			if (config.authorTag == null) {
-				author = config.name;
-			}
-
-			for (int jdx = 0; jdx < articleItem.getChildNodes().getLength(); jdx++) {
-				Node metadata = articleItem.getChildNodes().item(jdx);
-				// System.out.println(metadata.getNodeName());
-				if (metadata.getNodeName().equalsIgnoreCase("title")) {
-					title = metadata.getTextContent();
-				}
-				
-				String targetLinkTagName = "guid";//Default
-				if(config.linkTag != null) {
-					targetLinkTagName = config.linkTag;
-				}
-				if (metadata.getNodeName().equalsIgnoreCase(targetLinkTagName)) {
-					url = metadata.getTextContent();
-				}
-				
-				if (metadata.getNodeName().equalsIgnoreCase("pubDate")) {
-					try {
-						dateStr = metadata.getTextContent();
-						date = config.format.parse(dateStr);
-						dateStr = DATE_FORMAT.format(date);
-					} catch (DOMException | ParseException e) {
-						e.printStackTrace();
-					}
-
-				}
-
-				if (config.authorTag != null) {
-					if (metadata.getNodeName().equalsIgnoreCase(config.authorTag)) {
-						author = metadata.getTextContent();
-					}
-				}
-
-				if (metadata.getNodeName().equalsIgnoreCase("description")) {
-					description = metadata.getTextContent();
-				}
-
-			}
-			 */
-			/*
-			if (title != null && date != null && url != null) {
-				if (config.processor != null) {
-					url = config.processor.adjustURL(url);
-				}
-				*/
 			ArticleInfo aInfo = getArticleInfo(articleItem, config);
-				boolean outcome = FileUtil.writeRawHTMLRecord(aInfo.title, aInfo.date, aInfo.url, targetDir);
-				if (!outcome) {
-					// If we already have saved this HTML or can't write the
-					// HTML, nothing here matters
-					continue;
-				}
-				String filename = targetDir + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(aInfo.title, aInfo.date);
+			boolean outcome = FileUtil.writeRawHTMLRecord(aInfo.title, aInfo.date, aInfo.url, targetDir);
+			if (!outcome) {
+				// If we already have saved this HTML or can't write the
+				// HTML, nothing here matters
+				continue;
+			}
+			String filename = targetDir + FileUtil.getFileSep()
+					+ FileUtil.articleFolderNameGenerator(aInfo.title, aInfo.date);
 
-				if(mConfig.enableChrome) {
+			if (mConfig.enableChrome) {
 				try {
-					//Invoke pdf generation here
-					String invokeCommand = mConfig.chromeInvoke + filename + FileUtil.getFileSep() + FileUtil.articleFolderNameGenerator(aInfo.title, aInfo.date) + ".pdf " + aInfo.url;
+					// Invoke pdf generation here
+					String invokeCommand = mConfig.chromeInvoke + filename + FileUtil.getFileSep()
+							+ FileUtil.articleFolderNameGenerator(aInfo.title, aInfo.date) + ".pdf " + aInfo.url;
 					Process p = Runtime.getRuntime().exec(invokeCommand);
 					int exitVal = p.waitFor();
 					Log.getInstance().log("Generate PDF: " + invokeCommand, LogLevel.DEBUG);
@@ -215,36 +160,35 @@ public class ArticleAccessHelper {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				}
-				
-				String processedText = null;
-				if (config.nativeRSSContent) {
-					processedText = aInfo.description;
-				} else {
-					if (config.processor != null && config.processor.canProcess(aInfo.url)) {
-						try {
-							processedText = config.processor.process(ArticleAccessHelper.getText(aInfo.url));
-						} catch (Exception e) {
-							Log.getInstance().log("Was not able to process: " + aInfo.url + e.toString(), LogLevel.WARNING);
-						}
+			}
+
+			String processedText = null;
+			if (config.nativeRSSContent) {
+				processedText = aInfo.description;
+			} else {
+				if (config.processor != null && config.processor.canProcess(aInfo.url)) {
+					try {
+						processedText = config.processor.process(ArticleAccessHelper.getText(aInfo.url));
+					} catch (Exception e) {
+						Log.getInstance().log("Was not able to process: " + aInfo.url + e.toString(), LogLevel.WARNING);
 					}
 				}
-
-				if (processedText != null) {
-					// Strip out image tags and write images to directory
-					processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
-
-					// Strip tags and write text
-					processedText = FileUtil.processAndWriteText(aInfo.title, aInfo.date, processedText, filename);
-				}
-
-				outcome &= writeXMLArticle(filename, aInfo.title, aInfo.pubDateStr, aInfo.url, aInfo.description, aInfo.date, processedText, aInfo.author);
-/*
-			} else {
-				Log.getInstance().log("Error parsing article data: Title=" + title + " Date=" + date + " url=" + url,
-						LogLevel.WARNING);
 			}
-			*/
+
+			if (processedText != null) {
+				// Strip out image tags and write images to directory
+				processedText = ImageTagCleaner.imageTagCleaner(processedText, filename);
+
+				// Strip tags and write text
+				processedText = FileUtil.processAndWriteText(aInfo.title, aInfo.date, processedText, filename);
+			}
+
+			outcome &= writeXMLArticle(filename, aInfo.title, aInfo.pubDateStr, aInfo.url, aInfo.description,
+					aInfo.date, processedText, aInfo.author);
+			/*
+			 * } else { Log.getInstance().log("Error parsing article data: Title=" + title +
+			 * " Date=" + date + " url=" + url, LogLevel.WARNING); }
+			 */
 		}
 	}
 
