@@ -55,8 +55,12 @@ public class Runner {
 
 		while (true) {
 			for (SiteConfig config : masterConfig.configs) {
-				Document rssFeed = ArticleAccessHelper.getXMLDocumentFromURL(config.url);
-				ArticleAccessHelper.rssRecorder(rssFeed, rootDirStr + FileUtil.getFileSep() + config.folder, config, masterConfig);
+				try {
+					Document rssFeed = ArticleAccessHelper.getXMLDocumentFromURL(config.url);
+					ArticleAccessHelper.rssRecorder(rssFeed, rootDirStr + FileUtil.getFileSep() + config.folder, config, masterConfig);
+				}catch(Exception ex){
+					Log.getInstance().log("Skipping " + config.name + " due to captured exception in processing. " + ex.getMessage(), LogLevel.WARNING);
+				}
 			}
 
 			Log.getInstance().log("Sleeping for hours: " + masterConfig.refreshHours, LogLevel.NOMINAL);
